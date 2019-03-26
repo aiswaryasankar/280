@@ -1,0 +1,1 @@
+python train.py --num_gpus 2 --id AFN6 --is_toy_dataset=True --batch_size 1

@@ -193,7 +193,7 @@ if __name__ == '__main__':
     parser.add_argument('--resume', default='',
                         help='the checkpoint that resumes from')
     parser.add_argument('--num_round', default=1, type=int)
-
+    parser.add_argument('--is_toy_dataset', default=False, type=bool)
     args = parser.parse_args()
     print("Input arguments:")
     for key, val in vars(args).items():

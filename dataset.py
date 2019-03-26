@@ -11,6 +11,7 @@ class TrainDataset(Dataset):
         self.crop_size = args.crop_size
         self.random_flip = args.random_flip
         self.root_path = args.root_path
+        self.is_toy_dataset = args.is_toy_dataset
         assert args.mask, "Missing mask as the input"
         assert args.normalization, "You need to do the data normalization before training"
     
@@ -27,7 +28,11 @@ class TrainDataset(Dataset):
                 image = np.expand_dims(image, axis=0)
                 im.append(image)
                 if i == 0:
-                    file_path = direct[:-15]+".nii"
+                    file_path = ""
+                    if not self.is_toy_dataset:
+                        file_path = direct[:-15]+".nii"
+                    else:
+                        file_path = direct
 #                     print(file_path)
                     mask = nib.load(self.root_path + file_path + "/mask.nii.gz").get_data()
             else:
