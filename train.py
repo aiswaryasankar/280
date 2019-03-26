@@ -77,7 +77,9 @@ def main(args):
             num_branches=args.num_branches,
             padding_list=args.padding_list, 
             dilation_list=args.dilation_list)
-    model = torch.nn.DataParallel(model, device_ids=list(range(args.num_gpus))).cuda()
+    print(list(range(args.num_gpus)))
+    #model = torch.nn.DataParallel(model, device_ids=[0,2].cuda()) 
+    model = torch.nn.DataParallel(model, device_ids=[0,2]).cuda()
     cudnn.benchmark = True
 
     # collect the number of parameters in the network
@@ -168,10 +170,10 @@ if __name__ == '__main__':
                         help='if have the mask')
 
     # optimization related arguments
-    parser.add_argument('--num_gpus', default=4, type=int, help='number of GPUs to use')
+    parser.add_argument('--num_gpus', default=2, type=int, help='number of GPUs to use')
     parser.add_argument('--batch_size', default=10, type=int,
                         help='training batch size')
-    parser.add_argument('--num_epochs', default=400, type=int,
+    parser.add_argument('--num_epochs', default=5, type=int,
                         help='epochs for training')
     parser.add_argument('--start_epoch', default=0, type=int,
                         help='epoch to start training. useful if continue from a checkpoint')

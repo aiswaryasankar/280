@@ -22,6 +22,7 @@ class TrainDataset(Dataset):
         for i in range(self.num_input):
             direct, _ = self.root_dir[self.num_input * idx + i].split("\n")
             if i < self.num_input - 1:
+	
                 image = nib.load(self.root_path + direct + '.gz').get_data()
                 image = np.expand_dims(image, axis=0)
                 im.append(image)

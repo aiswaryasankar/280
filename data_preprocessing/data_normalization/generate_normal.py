@@ -7,7 +7,7 @@ test_dir = testf.readlines()
 
 for i in range(int(len(test_dir))):
     i = i + 1
-    print "image" + str(i)
+    print ("image" + str(i))
 	
     if i % 5 == 4:
         continue
@@ -17,7 +17,7 @@ for i in range(int(len(test_dir))):
     direct_mask = direct_mask + "/mask.nii.gz"
     direct_image = direct_image +".gz"
     
-    pathToMainFolderWithSubjects = "./HGG/"
+    pathToMainFolderWithSubjects = "../../HGG/"
     subjectsToProcess = os.listdir(pathToMainFolderWithSubjects)
     subjectsToProcess.sort()
  
