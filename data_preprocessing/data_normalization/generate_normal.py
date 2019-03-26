@@ -1,13 +1,12 @@
 import sys
 import normalizationModule
 import os
+import pdb
 
-testf = open('test.txt', 'r')
+testf = open('/data2/arissa/Autofocus-Layer/brats2015nii_list.txt', 'r')
 test_dir = testf.readlines()
-
 for i in range(int(len(test_dir))):
-    i = i + 1
-    print ("image" + str(i))
+    print("image" + str(i))
 	
     if i % 5 == 4:
         continue
@@ -17,7 +16,7 @@ for i in range(int(len(test_dir))):
     direct_mask = direct_mask + "/mask.nii.gz"
     direct_image = direct_image +".gz"
     
-    pathToMainFolderWithSubjects = "../../HGG/"
+    pathToMainFolderWithSubjects = "./HGG_full/"
     subjectsToProcess = os.listdir(pathToMainFolderWithSubjects)
     subjectsToProcess.sort()
  
@@ -31,6 +30,8 @@ for i in range(int(len(test_dir))):
     lowHighCutoffPercentile = [5., 95.]
     lowHighCutoffTimesTheStd = [3., 3.]
     cutoffAtWholeImgMean = True 
+    print(direct_image)
+    print(direct_mask)
     normalizationModule.do_normalization( __file__,
 				pathToMainFolderWithSubjects,
 				subjectsToProcess,
@@ -43,5 +44,7 @@ for i in range(int(len(test_dir))):
 				lowHighCutoffTimesTheStd, # Can be None
 				cutoffAtWholeImgMean,
 				)
+#     break
+
 
 

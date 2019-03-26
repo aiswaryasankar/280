@@ -97,7 +97,7 @@ def do_normalization(windowTitle,
 	
         ### Save output ###
 	if saveOutput:
-		outputFilepath = channelToNormalizeFilepath
+		outputFilepath = channelToNormalizeFilepath[:-7] + "_normalized.nii.gz"
 		print(outputFilepath)
 		print("\tSaving normalized output to: "),outputFilepath
 		saveImageToANewNiiWithHeaderFromOther(normImgNpArr, outputFilepath, srcProxy, dtypeToSaveOutput)
