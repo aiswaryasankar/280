@@ -197,4 +197,3 @@ class RandomCrop(object):
 
         return {'images':image.copy(), 'labels': label.copy()}
 
->>>>>>> aab35a1f87f7dad0060de1b0ddf2f496d19f58d6
