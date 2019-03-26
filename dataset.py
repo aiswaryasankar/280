@@ -18,6 +18,7 @@ class TrainDataset(Dataset):
         return self.length
    
     def __getitem__(self, idx):
+        print("index is: " + str(idx))
         im = []
         for i in range(self.num_input):
             direct, _ = self.root_dir[self.num_input * idx + i].split("\n")
@@ -26,7 +27,9 @@ class TrainDataset(Dataset):
                 image = np.expand_dims(image, axis=0)
                 im.append(image)
                 if i == 0:
-                    mask = nib.load(self.root_path + direct + "/mask.nii.gz").get_data()
+                    file_path = direct[:-15]+".nii"
+#                     print(file_path)
+                    mask = nib.load(self.root_path + file_path + "/mask.nii.gz").get_data()
             else:
                 labels = nib.load(self.root_path + direct + '.gz').get_data()
         
