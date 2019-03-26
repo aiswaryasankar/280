@@ -77,9 +77,9 @@ def main(args):
             num_branches=args.num_branches,
             padding_list=args.padding_list, 
             dilation_list=args.dilation_list)
-    print(list(range(args.num_gpus)))
-    #model = torch.nn.DataParallel(model, device_ids=[0,2].cuda()) 
-    model = torch.nn.DataParallel(model, device_ids=[0,2]).cuda()
+    device_ids = [0,2]
+#     model = torch.nn.DataParallel(model, device_ids=list(range(args.num_gpus))).cuda()
+    model = torch.nn.DataParallel(model, device_ids=device_ids).cuda()
     cudnn.benchmark = True
 
     # collect the number of parameters in the network
