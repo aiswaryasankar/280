@@ -25,7 +25,7 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
         target = sample['labels'].long()
         image = Variable(image).cuda()
         label = Variable(target).cuda()       
-        print(image.shape)
+#         print(image.shape)
         # The dimension of out should be in the dimension of B,C,W,H,D
         # transform the prediction and label
         out = model(image)    
