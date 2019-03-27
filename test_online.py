@@ -14,9 +14,15 @@ from distutils.version import LooseVersion
 import argparse
 from dataset import TestDataset
 import SimpleITK as sitk 
+import pdb
+from tqdm import tqdm
 
 # save prediction results in the format of online submission
 def visualize_result(name, pred, args):
+#     pass
+    print(name)
+    print("visualize image " + name)
+    print(pred)
     _, _, name1, _, name2 = name.split("/")
     _, _, _, _, _, name3, _ = name2.split(".")
     pred = sitk.GetImageFromArray(pred)
@@ -76,6 +82,7 @@ def test(test_loader, model, num_segments, args):
 
         with torch.no_grad():      
             image = Variable(image)
+#             pdb.set_trace()
             # The dimension of out should be in the dimension of B,C,H,W,D
             out = model(image)
             out_size = out.size()[2:]      
@@ -97,7 +104,9 @@ def main(args):
             num_branches=args.num_branches,
             padding_list=args.padding_list, 
             dilation_list=args.dilation_list)
-    model = torch.nn.DataParallel(model, device_ids=list(range(args.num_gpus))).cuda()
+    
+    device_ids = [0,2]
+    model = torch.nn.DataParallel(model, device_ids=device_ids).cuda()
     cudnn.benchmark = True
     
     if args.resume:
@@ -116,7 +125,8 @@ def main(args):
     num_images = int(len(test_dir)/args.num_input)
     dice_score = np.zeros([num_images, 3]).astype(float)
 
-    for i in range(num_images):
+    for i in tqdm(range(num_images)):
+        print("image id: %d" % i)
         # load the images and mask
         im = []
         for j in range(args.num_input):
