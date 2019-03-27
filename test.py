@@ -149,7 +149,9 @@ def main(args):
             num_branches=args.num_branches,
             padding_list=args.padding_list, 
             dilation_list=args.dilation_list)
-    model = torch.nn.DataParallel(model, device_ids=list(range(args.num_gpus))).cuda()
+    device_ids=[0,2]
+    model = torch.nn.DataParallel(model, device_ids=device_ids).cuda()
+#     model = torch.nn.DataParallel(model, device_ids=list(range(args.num_gpus))).cuda()
     cudnn.benchmark = True
     
     if args.resume:

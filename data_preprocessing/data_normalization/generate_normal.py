@@ -3,22 +3,26 @@ import normalizationModule
 import os
 import pdb
 
-testf = open('/data2/arissa/Autofocus-Layer/brats2015nii_list.txt', 'r')
+testf = open('/data2/arissa/Autofocus-Layer/test_brats2015nii_list.txt', 'r')
 test_dir = testf.readlines()
 for i in range(int(len(test_dir))):
     print("image" + str(i))
 	
-    if i % 5 == 4:
-        continue
-
-    direct_mask,_ = test_dir[5 * int(i/5)].split("\n")    
+    ## MUST CHANGE STEP SIZE IF NORMALIZING TEST VS TRAIN
+#     if i % 5 == 4:
+#         continue
+    step = 4
+    direct_mask,_ = test_dir[step * int(i/step)].split("\n")    
     direct_image,_ = test_dir[i].split("\n")    
     direct_mask = direct_mask + "/mask.nii.gz"
     direct_image = direct_image +".gz"
     
-    pathToMainFolderWithSubjects = "./HGG_full/"
-    subjectsToProcess = os.listdir(pathToMainFolderWithSubjects)
-    subjectsToProcess.sort()
+#     pathToMainFolderWithSubjects = "./HGG_full/"
+    pathToMainFolderWithSubjects = None
+#     subjectsToProcess = os.listdir(pathToMainFolderWithSubjects)
+#     subjectsToProcess.sort()
+    ## i figured out that subjectsToProcess doesn't actually do anything
+    subjectsToProcess = None
  
     saveOutput = True
     prefixToAddToOutp = "_zNorm2StdsMu"

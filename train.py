@@ -13,6 +13,7 @@ import argparse
 from utils import AverageMeter
 from distutils.version import LooseVersion
 import math
+from tqdm import tqdm
 
 def train(train_loader, model, criterion, optimizer, epoch, args):
     losses = AverageMeter()
@@ -55,9 +56,15 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
       
     print('   * EPOCH {epoch} | Training Loss: {losses.avg:.3f}'.format(epoch=epoch, losses=losses))  
 
-def save_checkpoint(state, epoch, args):   
-    filename = args.ckpt + '/' + str(epoch) + '_checkpoint.pth.tar'
-    print(filename)
+def save_checkpoint(state, epoch, args):
+    file_path = args.ckpt + "/" + "totalepochs" + str(args.num_epochs) + "_cropsize" + str(args.crop_size[0]) + "_bs" + str(args.batch_size) + "/"
+    directory = os.path.dirname(file_path)
+    try:
+        os.stat(directory)
+    except:
+        os.mkdir(directory)
+    filename = file_path + str(epoch) + '_checkpoint.pth.tar'
+    print("saved checkpoint at: " + filename)
     torch.save(state, filename)
 
 def adjust_learning_rate(optimizer, cur_iter, args):
@@ -117,7 +124,7 @@ def main(args):
     train_loader = DataLoader(tf, batch_size=args.batch_size, shuffle=args.shuffle, num_workers=args.num_workers, pin_memory=True)    
     
     print("Start training ...")
-    for epoch in range(args.start_epoch + 1, args.num_epochs + 1):
+    for epoch in tqdm(range(args.start_epoch + 1, args.num_epochs + 1)):
         train(train_loader, model, criterion, optimizer, epoch, args)
 
         # save models
@@ -143,11 +150,11 @@ if __name__ == '__main__':
                         help='the number of parallel convolutions in autofocus layer')
 
     # Path related arguments
-    parser.add_argument('--train_path', default='datalist/train_list.txt',
+    parser.add_argument('--train_path', default='',
                         help='text file of the name of training data')
     parser.add_argument('--root_path', default='./',
                         help='root directory of data')
-    parser.add_argument('--ckpt', default='./saved_models',
+    parser.add_argument('--ckpt', default='',
                         help='folder to output checkpoints')
 
     # Data related arguments

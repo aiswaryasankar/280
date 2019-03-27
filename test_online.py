@@ -20,7 +20,9 @@ def visualize_result(name, pred, args):
     _, _, name1, _, name2 = name.split("/")
     _, _, _, _, _, name3, _ = name2.split(".")
     pred = sitk.GetImageFromArray(pred)
-    sitk.WriteImage(pred, args.result + "/VSD"+"."+ str(name1) + '.'+ str(name3)+ '.mha')
+    file_name = args.result + "/VSD"+"."+ str(name1) + '.'+ str(name3)+ '.mha'
+    print("wrote image to " + file_name)
+    sitk.WriteImage(pred, file_name)
 
 
 # compute the number of segments of  the test images
@@ -119,8 +121,9 @@ def main(args):
         im = []
         for j in range(args.num_input):
             direct, _ = test_dir[args.num_input * i + j].split("\n")
+#             direct = direct + ".gz"
             name = direct            
-            image = nib.load(args.root_path + direct).get_data()
+            image = nib.load(args.root_path + direct + ".gz").get_data()
             image = np.expand_dims(image, axis=0)
             im.append(image)
             if j == 0:
@@ -224,8 +227,16 @@ if __name__ == '__main__':
     parser.add_argument('--result', default='./result',
                         help='folder to output prediction results')
     parser.add_argument('--num_round', default=None, type=int,
-                        help='restore the models from which run'))
-
+                        help='restore the models from which run')
+    
+    # trained model related arguments (for loading the trained models)
+    parser.add_argument('--train_batch_size', default=10, type=int,
+                        help='batch size of trained model')
+    parser.add_argument('--train_num_epochs', default=400, type=int,
+                        help='number of epochs for trained model')  
+    parser.add_argument('--train_crop_size', default=75, type=int,
+                        help='crop size for trained model.')  
+    
     args = parser.parse_args()
     print("Input arguments:")
     for key, value in vars(args).items():
@@ -237,7 +248,8 @@ if __name__ == '__main__':
     if not args.num_round:
         args.ckpt = os.path.join(args.ckpt, args.id)
     else:
-        args.ckpt = os.path.join(args.ckpt, args.id, str(args.num_round))
+        parameters = "totalepochs" + str(args.train_num_epochs) + "_cropsize" + str(args.train_crop_size) + "_bs" + str(args.train_batch_size)
+        args.ckpt = os.path.join(args.ckpt, args.id, str(args.num_round), parameters)
 
     args.result = os.path.join(args.result, args.id)
     if not os.path.isdir(args.result):
