@@ -150,11 +150,11 @@ if __name__ == '__main__':
                         help='the number of parallel convolutions in autofocus layer')
 
     # Path related arguments
-    parser.add_argument('--train_path', default='datalist/train_list.txt',
+    parser.add_argument('--train_path', default=None,
                         help='text file of the name of training data')
-    parser.add_argument('--root_path', default='./',
+    parser.add_argument('--root_path', default=None,
                         help='root directory of data')
-    parser.add_argument('--ckpt', default='./saved_models',
+    parser.add_argument('--ckpt', default=None,
                         help='folder to output checkpoints')
 
     # Data related arguments
@@ -206,10 +206,11 @@ if __name__ == '__main__':
     print("Input arguments:")
     for key, val in vars(args).items():
         print("{:16} {}".format(key, val))
-    if not args.is_toy_dataset:
-        args.train_path = None
-        args.root_path = None
-        args.ckpt = None
+    if args.is_toy_dataset:
+        print("USING TOY DATASET")
+        args.train_path = "datalist/train_list.txt"
+        args.root_path = "./"
+        args.ckpt = './saved_models'
     train_file = open(args.train_path, 'r')
     train_dir = train_file.readlines()
 
