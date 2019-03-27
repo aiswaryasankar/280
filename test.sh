@@ -1,0 +1,1 @@
+python test_online.py --num_gpus 2 --id AFN6 --test_path "./test_brats2015_nii_normalized_list.txt" --root_path "" --train_batch_size 5 --train_crop_size 75 --train_num_epochs 100 --ckpt "/data2/brats2015_ckpts" --visualize --num_round 1 --test_epoch 100

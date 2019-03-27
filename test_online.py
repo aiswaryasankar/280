@@ -127,7 +127,7 @@ def main(args):
             image = np.expand_dims(image, axis=0)
             im.append(image)
             if j == 0:
-                mask = nib.load(args.root_path + direct + "mask/mask.nii").get_data()
+                mask = nib.load(args.root_path + direct[:-15] + ".nii" + "/mask.nii.gz").get_data()
                    
         images = np.concatenate(im, axis=0).astype(float)
 
