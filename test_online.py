@@ -19,14 +19,11 @@ from tqdm import tqdm
 
 # save prediction results in the format of online submission
 def visualize_result(name, pred, args):
-#     pass
-    print(name)
     print("visualize image " + name)
-    print(pred)
-    _, _, name1, _, name2 = name.split("/")
+    _, _, _, _, _, name1, _, name2 = name.split("/")
     _, _, _, _, _, name3, _ = name2.split(".")
     pred = sitk.GetImageFromArray(pred)
-    file_name = args.result + "/VSD"+"."+ str(name1) + '.'+ str(name3)+ '.mha'
+    file_name = args.result + "/VSD"+"."+ str(name1) + '.'+ str(name3)[:-11] + '.mha'
     print("wrote image to " + file_name)
     sitk.WriteImage(pred, file_name)
 
