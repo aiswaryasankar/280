@@ -80,6 +80,7 @@ def main(args):
     device_ids = [0,2]
 #     model = torch.nn.DataParallel(model, device_ids=list(range(args.num_gpus))).cuda()
     model = torch.nn.DataParallel(model, device_ids=device_ids).cuda()
+#     model = model.cuda()
     cudnn.benchmark = True
 
     # collect the number of parameters in the network
