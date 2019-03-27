@@ -19,12 +19,13 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
     losses = AverageMeter()
 
     model.train()
+#     print(model)
     for iteration, sample in enumerate(train_loader):
         image = sample['images'].float()
         target = sample['labels'].long()
         image = Variable(image).cuda()
         label = Variable(target).cuda()       
-        
+        print(image.shape)
         # The dimension of out should be in the dimension of B,C,W,H,D
         # transform the prediction and label
         out = model(image)    
@@ -204,13 +205,14 @@ if __name__ == '__main__':
     parser.add_argument('--is_toy_dataset', default=False, type=bool)
     args = parser.parse_args()
     print("Input arguments:")
-    for key, val in vars(args).items():
-        print("{:16} {}".format(key, val))
     if args.is_toy_dataset:
         print("USING TOY DATASET")
         args.train_path = "datalist/train_list.txt"
         args.root_path = "./"
         args.ckpt = './saved_models'
+    for key, val in vars(args).items():
+        print("{:16} {}".format(key, val))
+   
     train_file = open(args.train_path, 'r')
     train_dir = train_file.readlines()
 

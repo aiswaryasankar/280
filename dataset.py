@@ -37,10 +37,10 @@ class TrainDataset(Dataset):
                     mask = nib.load(self.root_path + file_path + "/mask.nii.gz").get_data()
             else:
                 labels = nib.load(self.root_path + direct + '.gz').get_data().astype("int16")
-#                 print("labels type " + str(labels.dtype))
+#                 print("labels type " + str(labels.dtype) + " labels shape " + str(labels.shape))
                 
         images = np.concatenate(im, axis=0).astype(float)
-#         print("images type " + str(images.dtype))
+#         print("images type " + str(images.dtype) + " images shape " + str(images.shape))
         # images shape: 4 x H x W x D 
         # labels shape: H x W x D 
         sample = {'images': images, 'mask': mask, 'labels':labels}
